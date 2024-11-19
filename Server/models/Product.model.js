@@ -12,6 +12,11 @@ const productSchema = new Schema(
     },
     images: [strings],
     stock: { type: Number, min: [0, "Has to be over 0"] },
+    owner: {
+      type: Schema.Types.ObjectId,
+      ref: "User",
+      required: [true, "owner is required"],
+    },
   },
   {
     timestamps: true, // add creation time and update time automaticlly
