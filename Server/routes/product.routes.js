@@ -34,7 +34,7 @@ router.post("/products", isAuthenticated, async (req, res) => {
 
 router.get("/products", async (req, res) => {
   try {
-    const productsFromDB = await Product.find();
+    const productsFromDB = await Product.find().populate("owner", "name email");
     if (productsFromDB.length === 0) {
       return res
         .status(404)
@@ -55,7 +55,10 @@ router.get("/products/:productId", async (req, res) => {
   const { productId } = req.params;
 
   try {
-    const productFromDB = await Product.findById(productId);
+    const productFromDB = await Product.findById(productId).populate(
+      "owner",
+      "name email"
+    );
 
     if (!productFromDB) {
       return res.status(404).json({ error: "No product with that id found" });
