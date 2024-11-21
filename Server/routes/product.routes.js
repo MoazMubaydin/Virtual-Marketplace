@@ -72,6 +72,24 @@ router.get("/products/:productId", async (req, res) => {
   }
 });
 
+//get product by user
+router.get("/products/:userId", async (req, res) => {
+  const { userId } = req.params;
+
+  try {
+    const productsFromDB = await Product.find({ owner: userId });
+    if (productsFromDB.length === 0) {
+      return res.status(404).json({ error: "User does not have any products" });
+    }
+    res.status(200).json(productsFromDB);
+  } catch (error) {
+    console.log("error in GET /products/:userId");
+    res
+      .status(500)
+      .json({ error: error.message || "Failed to get products from database" });
+  }
+});
+
 //Updating a product
 
 router.patch("/products/:productId", async (req, res) => {
