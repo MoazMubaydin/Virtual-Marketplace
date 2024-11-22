@@ -1,0 +1,13 @@
+.homepage{
+    max-width: 80%;
+    display: flex;
+    justify-content: space-evenly;
+    flex-wrap: wrap ;
+
+}
+
+.cardHP{
+    margin-top: 2em;
+    box-shadow: rgba(75, 33, 33, 0.2) 0px 2px 8px 0px;
+
+}
