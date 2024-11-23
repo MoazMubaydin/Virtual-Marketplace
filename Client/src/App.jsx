@@ -1,14 +1,21 @@
 import { useState } from "react";
 import { Link, Route, Routes } from "react-router-dom";
-import Navbar from "./components/Navbar";
+import Navbar from "./components/navbar/Navbar";
 import Signup from "./authentication/Signup";
 import Login from "./authentication/Login";
 import Home from "./pages/Home";
 import Product from "./pages/Product";
 function App() {
+  const [cart, setCart] = useState([]);
+
+  const addItem = (item) => {
+    cart.push(item);
+    setCart(cart);
+    console.log(cart);
+  };
   return (
     <div className="App">
-      <Navbar />
+      <Navbar cart={cart} />
       <Routes>
         <Route path="/" element={<Home callbackToAddItem={addItem} />} />
         <Route path="/signup" element={<Signup />} />
