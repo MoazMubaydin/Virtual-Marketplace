@@ -104,7 +104,10 @@ router.patch("/products/:productId", async (req, res) => {
 
   try {
     const checkUser = await Product.findById(productId);
-    if (checkUser._id !== req.payload._id) {
+    if (!checkUser) {
+      return res.status(404).json({ error: "No product with that id found" });
+    }
+    if (checkUser.owner !== req.payload._id) {
       return res
         .status(403)
         .json({ error: "You are not authroized to update this product" });
@@ -115,9 +118,6 @@ router.patch("/products/:productId", async (req, res) => {
       { new: true, runValidators: true } // validates the updatedproduct with the schema
     );
 
-    if (!updatedProductFromDB) {
-      return res.status(404).json({ error: "No product with that id found" });
-    }
     res.status(200).json(updatedProductFromDB);
   } catch (error) {
     console.log("Error on PATCH /products/:productId", error);
@@ -132,7 +132,7 @@ router.delete("/products/:productId", async (req, res) => {
 
   try {
     const checkUser = await Product.findById(productId);
-    if (checkUser._id !== req.payload._id) {
+    if (checkUser.owner !== req.payload._id) {
       return res
         .status(403)
         .json({ error: "You are not authroized to delete this product" });
