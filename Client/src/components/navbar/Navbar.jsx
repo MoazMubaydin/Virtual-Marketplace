@@ -1,6 +1,6 @@
 import "@mantine/core";
-import { Avatar, Menu, Group } from "@mantine/core";
-import { Link, useNavigate } from "react-router-dom";
+import { Avatar, Menu, Group, Button, Modal } from "@mantine/core";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import {
   IconShoppingCart,
   IconSearch,
@@ -13,9 +13,14 @@ import { rem } from "@mantine/core";
 import { useContext } from "react";
 import { AuthContext } from "../../context/auth.context";
 import "./navbar.css";
+import { useDisclosure } from "@mantine/hooks";
+import CreateProduct from "../Product/CreateProduct";
 export default function Navbar({ cart }) {
   const { isLoggedIn, user, logOutUser } = useContext(AuthContext);
+  const [opened, { open, close }] = useDisclosure(false);
+
   const navigate = useNavigate();
+  const location = useLocation();
   return (
     <nav className="navbar">
       <img
@@ -34,6 +39,14 @@ export default function Navbar({ cart }) {
 
       {isLoggedIn && (
         <>
+          {location.pathname === `/user/products/${user._id}` && (
+            <>
+              <Modal opened={opened} onClose={close} title="Create Product">
+                <CreateProduct />
+              </Modal>
+              <Button onClick={open}>Create New Product</Button>
+            </>
+          )}
           <Group>
             <IconShoppingCart size={30} />
             <Menu shadow="md" width={200}>
@@ -47,6 +60,9 @@ export default function Navbar({ cart }) {
                   leftSection={
                     <IconBox style={{ width: rem(14), height: rem(14) }} />
                   }
+                  onClick={() => {
+                    navigate(`/user/products/${user._id}`);
+                  }}
                 >
                   My Products
                 </Menu.Item>
