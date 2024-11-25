@@ -5,14 +5,14 @@ const { isAuthenticated } = require("../middleware/jwt.middleware");
 //create an Order
 
 router.post("/orders", isAuthenticated, async (req, res) => {
-  const { buyerId, products } = req.body;
-  if (!buyerId || !products) {
+  const { products } = req.body;
+  if (!products) {
     return res
       .status(400)
       .json({ error: "All required fields must be entered." });
   }
   try {
-    const newOrder = await Order.create({ buyerId, products });
+    const newOrder = await Order.create({ buyerId: req.payload._id, products });
     res.status(201).json(newOrder);
   } catch (error) {
     console.log("Error creating order.", error);
