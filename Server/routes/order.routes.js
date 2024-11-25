@@ -31,7 +31,7 @@ router.get("/orders", isAuthenticated, async (req, res) => {
       "name email"
     );
     if (orders.length === 0) {
-      return res.status(404).json({ error: "user does not have any orders" });
+      return res.status(200).json({ error: "user does not have any orders" });
     }
     res.json(orders);
   } catch (error) {
