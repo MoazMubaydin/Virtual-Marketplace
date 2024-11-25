@@ -3,10 +3,10 @@ const { isAuthenticated } = require("../middleware/jwt.middleware.js");
 const Product = require("../models/Product.model.js");
 
 router.post("/products", isAuthenticated, async (req, res) => {
-  const { name, price, category, images, stock, owner } = req.body;
+  const { name, price, category, images, stock } = req.body;
 
   //Creating a new product
-  if (!name || !price || !category || !images || !stock || !owner) {
+  if (!name || !price || !category || !images || !stock) {
     return res
       .status(400)
       .json({ error: "All required fields must be entered." });
@@ -19,7 +19,7 @@ router.post("/products", isAuthenticated, async (req, res) => {
       category,
       images,
       stock,
-      owner,
+      owner: req.payload._id,
     });
     res.status(201).json(productFromDB);
   } catch (error) {
@@ -49,6 +49,23 @@ router.get("/products", async (req, res) => {
   }
 });
 
+//get product by user
+router.get("/user/products/:userId", async (req, res) => {
+  const { userId } = req.params;
+  try {
+    const productsFromDB = await Product.find({ owner: userId });
+    if (productsFromDB.length === 0) {
+      return res.status(200).json({ error: "User does not have any products" });
+    }
+    res.status(200).json({ products: productsFromDB });
+  } catch (error) {
+    console.log("error in GET /products/:userId");
+    res
+      .status(500)
+      .json({ error: error.message || "Failed to get products from database" });
+  }
+});
+
 //Getting a product by its ID
 
 router.get("/products/:productId", async (req, res) => {
@@ -72,24 +89,6 @@ router.get("/products/:productId", async (req, res) => {
   }
 });
 
-//get product by user
-router.get("/products/:userId", async (req, res) => {
-  const { userId } = req.params;
-
-  try {
-    const productsFromDB = await Product.find({ owner: userId });
-    if (productsFromDB.length === 0) {
-      return res.status(404).json({ error: "User does not have any products" });
-    }
-    res.status(200).json(productsFromDB);
-  } catch (error) {
-    console.log("error in GET /products/:userId");
-    res
-      .status(500)
-      .json({ error: error.message || "Failed to get products from database" });
-  }
-});
-
 //Updating a product
 
 router.patch("/products/:productId", async (req, res) => {
@@ -104,11 +103,18 @@ router.patch("/products/:productId", async (req, res) => {
   }
 
   try {
+    const checkUser = await Product.findById(productId);
+    if (checkUser._id !== req.payload._id) {
+      return res
+        .status(403)
+        .json({ error: "You are not authroized to update this product" });
+    }
     const updatedProductFromDB = await Product.findByIdAndUpdate(
       productId,
       updatedProduct,
       { new: true, runValidators: true } // validates the updatedproduct with the schema
     );
+
     if (!updatedProductFromDB) {
       return res.status(404).json({ error: "No product with that id found" });
     }
@@ -125,6 +131,12 @@ router.delete("/products/:productId", async (req, res) => {
   const { productId } = req.params;
 
   try {
+    const checkUser = await Product.findById(productId);
+    if (checkUser._id !== req.payload._id) {
+      return res
+        .status(403)
+        .json({ error: "You are not authroized to delete this product" });
+    }
     const deletedProduct = await Product.findByIdAndDelete(productId);
     if (!deletedProduct) {
       return res.status(404).json({ error: "No product with that id found" });
