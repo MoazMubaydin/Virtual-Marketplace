@@ -29,9 +29,7 @@ export default function Home({ callbackToAddItem }) {
 
   return (
     <div className="homepage">
-      {products && (
-          <ToastContainer position="bottom-right" autoClose={2000} />
-        ) &&
+      {products &&
         products.map((product) => {
           return (
             <div key={product._id} className="cardHP">
@@ -74,6 +72,11 @@ export default function Home({ callbackToAddItem }) {
             </div>
           );
         })}
+      <ToastContainer
+        className="toast"
+        position="bottom-right"
+        autoClose={2000}
+      />
       {errorMessage && <p className="error-message">{errorMessage}</p>}
     </div>
   );
