@@ -1,23 +1,26 @@
 const router = require("express").Router();
 const { isAuthenticated } = require("../middleware/jwt.middleware.js");
 const Product = require("../models/Product.model.js");
+const imageUploader = require("../config/cloudinary.config");
+
+//Creating a new product
 
 router.post("/products", isAuthenticated, async (req, res) => {
-  const { name, price, category, images, stock } = req.body;
+  const { name, price, category, stock } = req.body;
 
-  //Creating a new product
-  if (!name || !price || !category || !images || !stock) {
+  if (!name || !price || !category || !stock) {
     return res
       .status(400)
       .json({ error: "All required fields must be entered." });
   }
 
   try {
+    const image = req.file?.path;
     const productFromDB = await Product.create({
       name,
       price,
       category,
-      images,
+      image: image,
       stock,
       owner: req.payload._id,
     });
@@ -30,6 +33,20 @@ router.post("/products", isAuthenticated, async (req, res) => {
   }
 });
 
+//Upload image
+
+router.post("/upload", imageUploader.single("image"), async (req, res) => {
+  try {
+    if (req.file.path) {
+      return res.status(201).json({ imageUrl: req.file.path });
+    } else {
+      return res.status(500).json({ msg: "No image was uploaded" });
+    }
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({ msg: "error while uploading image", error });
+  }
+});
 //Getting the product list
 
 router.get("/products", async (req, res) => {
