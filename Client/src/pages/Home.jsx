@@ -29,7 +29,7 @@ export default function Home({ callbackToAddItem }) {
 
   return (
     <div className="homepage">
-      <ToastContainer position="bottom-right" autoClose={2000} closeOnClick />
+      <ToastContainer position="bottom-right" autoClose={2000} />
       {products &&
         products.map((product) => {
           return (
