@@ -1,5 +1,7 @@
 import { Badge, Button, Card, Group } from "@mantine/core";
 import axios from "axios";
+import { ToastContainer, toast } from "react-toastify";
+
 import "./Home.css";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -8,6 +10,7 @@ const DB_URL = import.meta.env.VITE_DATABASE_API_URL;
 export default function Home({ callbackToAddItem }) {
   const [errorMessage, setErrorMessage] = useState(undefined);
   const [products, setProducts] = useState(null);
+  const notify = () => toast.success("Item added");
 
   const navigate = useNavigate();
 
@@ -26,6 +29,7 @@ export default function Home({ callbackToAddItem }) {
 
   return (
     <div className="homepage">
+      <ToastContainer position="bottom-right" autoClose={2000} closeOnClick />
       {products &&
         products.map((product) => {
           return (
@@ -46,7 +50,11 @@ export default function Home({ callbackToAddItem }) {
                     color="blue"
                     mt="md"
                     radius="md"
-                    onClick={() => callbackToAddItem(product)}
+                    onClick={() => {
+                      callbackToAddItem(product);
+
+                      notify();
+                    }}
                   >
                     Add to shopping cart
                   </Button>
