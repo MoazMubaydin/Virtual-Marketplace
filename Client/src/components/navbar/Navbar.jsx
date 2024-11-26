@@ -42,7 +42,7 @@ export default function Navbar({ cart }) {
           {location.pathname === `/user/products/${user._id}` && (
             <>
               <Modal opened={opened} onClose={close} title="Create Product">
-                <CreateProduct />
+                <CreateProduct close={close} />
               </Modal>
               <Button onClick={open}>Create New Product</Button>
             </>
