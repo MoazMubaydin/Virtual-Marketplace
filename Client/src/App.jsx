@@ -3,10 +3,10 @@ import { Link, Route, Routes } from "react-router-dom";
 import Navbar from "./components/navbar/Navbar";
 import Signup from "./authentication/Signup";
 import Login from "./authentication/Login";
-import Home from "./pages/Home";
-import Product from "./pages/Product";
+import Home from "./pages/home/Home";
+import Product from "./pages/productCard/ProductCard";
 import UserProducts from "./pages/userProducts/UserProducts";
-import Cart from "./pages/Cart";
+import Cart from "./pages/cart/Cart";
 function App() {
   const [cart, setCart] = useState([]);
 
