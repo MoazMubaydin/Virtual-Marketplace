@@ -40,7 +40,7 @@ export default function Product({ callbackToAddItem }) {
             color="blue"
             mt="md"
             radius="md"
-            onClick={callbackToAddItem(product)}
+            onClick={() => callbackToAddItem(product)}
           >
             Add to shopping cart
           </Button>
