@@ -6,6 +6,7 @@ import Login from "./authentication/Login";
 import Home from "./pages/Home";
 import Product from "./pages/Product";
 import UserProducts from "./pages/userProducts/UserProducts";
+import Cart from "./pages/Cart";
 function App() {
   const [cart, setCart] = useState([]);
 
@@ -24,6 +25,10 @@ function App() {
         <Route
           path="/products/:productId"
           element={<Product callbackToAddItem={addItem} />}
+        />
+        <Route
+          path="/user/shopping-cart/:userId"
+          element={<Cart cart={cart} />}
         />
         <Route path="/user/products/:userId" element={<UserProducts />} />
       </Routes>
