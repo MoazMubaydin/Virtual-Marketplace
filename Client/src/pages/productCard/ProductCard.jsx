@@ -2,7 +2,7 @@ import { Badge, Button, Card, Group } from "@mantine/core";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-
+import "./productCard.css";
 const DB_URL = import.meta.env.VITE_DATABASE_API_URL;
 
 export default function Product({ callbackToAddItem }) {
