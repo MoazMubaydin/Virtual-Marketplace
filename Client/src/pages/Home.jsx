@@ -29,8 +29,9 @@ export default function Home({ callbackToAddItem }) {
 
   return (
     <div className="homepage">
-      <ToastContainer position="bottom-right" autoClose={2000} />
-      {products &&
+      {products && (
+          <ToastContainer position="bottom-right" autoClose={2000} />
+        ) &&
         products.map((product) => {
           return (
             <div key={product._id} className="cardHP">
