@@ -35,7 +35,7 @@ export default function Home({ callbackToAddItem }) {
             <div key={product._id} className="cardHP">
               <Card>
                 <Card.Section>
-                  <img src={product.images[0]} alt={product.name} />
+                  <img src={product.image} alt={product.name} />
                 </Card.Section>
                 <Group justify="space-between" mt="md" mb="xs">
                   <p>{product.name}</p>

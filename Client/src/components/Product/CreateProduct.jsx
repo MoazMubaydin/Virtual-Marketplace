@@ -43,7 +43,7 @@ export default function CreateProduct({ close }) {
     if (!name || !description || !price || !category || !stock) {
       return setError("All required values must be entered");
     }
-    const newItem = { name, description, price, category, images, stock };
+    const newItem = { name, description, price, category, image, stock };
     console.log("Payload being sent:", newItem);
     try {
       const token = localStorage.getItem("authToken");
