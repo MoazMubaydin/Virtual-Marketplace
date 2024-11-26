@@ -10,7 +10,7 @@ const productSchema = new Schema(
       enum: ["food", "pottery", "jewelry, clothing", "art"],
       required: [true, "category is required"],
     },
-    images: [String],
+    image: String,
     stock: { type: Number, min: [0, "Has to be over 0"] },
     owner: {
       type: Schema.Types.ObjectId,
