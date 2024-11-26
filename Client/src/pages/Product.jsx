@@ -5,7 +5,7 @@ import { useParams } from "react-router-dom";
 
 const DB_URL = import.meta.env.VITE_DATABASE_API_URL;
 
-export default function Product() {
+export default function Product({ callbackToAddItem }) {
   const [errorMessage, setErrorMessage] = useState(undefined);
 
   const { productId } = useParams();
@@ -36,7 +36,12 @@ export default function Product() {
             <Badge color="green">{product.price}</Badge>
           </Group>
           <p>{product.description || "Product does not have a description"}</p>
-          <Button color="blue" mt="md" radius="md">
+          <Button
+            color="blue"
+            mt="md"
+            radius="md"
+            onClick={callbackToAddItem(product)}
+          >
             Add to shopping cart
           </Button>
         </Card>
