@@ -48,7 +48,11 @@ export default function Navbar({ cart }) {
             </>
           )}
           <Group>
-            <IconShoppingCart size={30} />
+            <IconShoppingCart
+              size={30}
+              cart={cart}
+              onClick={() => navigate(`/user/shopping-cart/${user._id}`)}
+            />
             <Menu shadow="md" width={200}>
               <Menu.Target>
                 <Avatar alt="it's me" src={null || user.image} />
