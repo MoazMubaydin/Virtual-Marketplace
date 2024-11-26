@@ -10,14 +10,14 @@ import axios from "axios";
 import { useState } from "react";
 const DB_URL = import.meta.env.VITE_DATABASE_API_URL;
 
-export default function CreateProduct() {
+export default function CreateProduct({ close }) {
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
   const [price, setPrice] = useState(0);
   const [category, setCategoroy] = useState("");
   const [images, setImages] = useState([]);
   const [stock, setStock] = useState(1);
-
+  const [error, setError] = useState();
   const nameChange = (e) => {
     setName(e.target.value);
   };
@@ -40,7 +40,9 @@ export default function CreateProduct() {
   };
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+    if (!name || !description || !price || !category || !stock) {
+      return setError("All required values must be entered");
+    }
     const newItem = { name, description, price, category, images, stock };
     console.log("Payload being sent:", newItem);
     try {
@@ -66,6 +68,8 @@ export default function CreateProduct() {
     setCategoroy("");
     setImages([]);
     setStock(1);
+    setError("");
+    close();
   };
   return (
     <form onSubmit={handleSubmit}>
@@ -117,6 +121,7 @@ export default function CreateProduct() {
         value={images}
         onChange={handleFileChange}
       />
+      <p>{error}</p>
       <Button onClick={handleSubmit}>Create Product</Button>
     </form>
   );
