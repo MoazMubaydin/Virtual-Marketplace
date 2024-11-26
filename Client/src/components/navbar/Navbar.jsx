@@ -8,6 +8,7 @@ import {
   IconSettings,
   IconBox,
   IconMessage,
+  IconCirclePlusFilled,
 } from "@tabler/icons-react";
 import { rem } from "@mantine/core";
 import { useContext } from "react";
@@ -33,21 +34,23 @@ export default function Navbar({ cart }) {
       />
 
       <div id="navbar-search">
-        <IconSearch className="search-icon" size={18} color="#5c5656" />
-        <input type="search" placeholder=" Find for a product..." />
+        <IconSearch className="search-icon" size={20} />
+        <input type="search" placeholder=" Search for a product..." />
       </div>
 
       {isLoggedIn && (
         <>
-          {location.pathname === `/user/products/${user._id}` && (
-            <>
-              <Modal opened={opened} onClose={close} title="Create Product">
-                <CreateProduct close={close} />
-              </Modal>
-              <Button onClick={open}>Create New Product</Button>
-            </>
-          )}
           <Group>
+            {location.pathname === `/user/products/${user._id}` && (
+              <>
+                <Modal opened={opened} onClose={close} title="Create Product">
+                  <CreateProduct close={close} />
+                </Modal>
+                <Button onClick={open} variant="transparent" color="white">
+                  <IconCirclePlusFilled />
+                </Button>
+              </>
+            )}
             <IconShoppingCart
               size={30}
               cart={cart}
@@ -55,14 +58,17 @@ export default function Navbar({ cart }) {
             />
             <Menu shadow="md" width={200}>
               <Menu.Target>
-                <Avatar alt="it's me" src={null || user.image} />
+                <Avatar alt={user.name} src={null || user.image} />
               </Menu.Target>
 
               <Menu.Dropdown>
                 <Menu.Label>{user.name}</Menu.Label>
                 <Menu.Item
                   leftSection={
-                    <IconBox style={{ width: rem(14), height: rem(14) }} />
+                    <IconBox
+                      style={{ width: rem(14), height: rem(14) }}
+                      alt="shopping cart"
+                    />
                   }
                   onClick={() => {
                     navigate(`/user/products/${user._id}`);
@@ -104,14 +110,14 @@ export default function Navbar({ cart }) {
       )}
 
       {!isLoggedIn && (
-        <>
+        <Group>
           <Link to="/signup">
             <button>Sign Up</button>{" "}
           </Link>
           <Link to="/login">
             <button>Login</button>{" "}
           </Link>
-        </>
+        </Group>
       )}
     </nav>
   );
