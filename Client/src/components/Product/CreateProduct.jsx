@@ -18,34 +18,45 @@ export default function CreateProduct({ close }) {
   const [image, setImage] = useState("");
   const [stock, setStock] = useState(1);
   const [error, setError] = useState();
-  const nameChange = (e) => {
-    setName(e.target.value);
-  };
-  const descriptionChange = (e) => {
-    setDescription(e.target.value);
-  };
-  const priceChange = (value) => {
-    setPrice(value);
-  };
-  const categoryChange = (value) => {
-    setCategoroy(value);
-  };
 
-  const stockChange = (value) => {
-    setStock(value);
-  };
-  const handleFileChange = (files) => {
-    const fileNames = files.map((file) => file.name);
-    setImage(fileNames);
+  const imageUpload = async () => {
+    if (!image) {
+      return alert("please select an image to upload.");
+    }
+    const formData = new FormData();
+    formData.append("image", image);
+
+    try {
+      const responce = await axios.post(`${DB_URL}/api/upload`, formData, {
+        headers: { "Content-Type": "multipart/form-data" },
+      });
+      return responce.data.imageUrl;
+    } catch (error) {
+      console.log("Error uploading image", error);
+      setError(error);
+    }
   };
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!name || !description || !price || !category || !stock) {
       return setError("All required values must be entered");
     }
-    const newItem = { name, description, price, category, image, stock };
-    console.log("Payload being sent:", newItem);
     try {
+      const uploadedImage = await imageUpload();
+
+      if (!uploadedImage) {
+        return setError("Image upload failed. Please try again.");
+      }
+      const newItem = {
+        name,
+        description,
+        price,
+        category,
+        image: uploadedImage,
+        stock,
+      };
+      console.log("Payload being sent:", newItem);
+
       const token = localStorage.getItem("authToken");
       if (!token) {
         console.error("No token found in localStorage");
@@ -53,23 +64,24 @@ export default function CreateProduct({ close }) {
       }
 
       const response = await axios.post(`${DB_URL}/api/products`, newItem, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
+        headers: { Authorization: `Bearer ${token}` },
       });
-      console.log(response);
-    } catch (error) {
-      console.log(error);
-    }
 
-    setName("");
-    setDescription("");
-    setPrice(0);
-    setCategoroy("");
-    setImage([]);
-    setStock(1);
-    setError("");
-    close();
+      console.log(response);
+
+      // Reset form fields
+      setName("");
+      setDescription("");
+      setPrice(0);
+      setCategoroy("");
+      setImage("");
+      setStock(1);
+      setError("");
+      close();
+    } catch (error) {
+      console.error("Error submitting product:", error);
+      setError("Failed to create product. Please try again.");
+    }
   };
   return (
     <form onSubmit={handleSubmit}>
@@ -77,7 +89,9 @@ export default function CreateProduct({ close }) {
         label="Name"
         required
         value={name}
-        onChange={nameChange}
+        onChange={(e) => {
+          setName(e.target.value);
+        }}
         placeholder="Enter the products name"
       />
       <Textarea
@@ -85,7 +99,9 @@ export default function CreateProduct({ close }) {
         label="Description"
         placeholder="Product description"
         value={description}
-        onChange={descriptionChange}
+        onChange={(e) => {
+          setDescription(e.target.value);
+        }}
       />
       <NumberInput
         required
@@ -93,17 +109,20 @@ export default function CreateProduct({ close }) {
         placeholder="Euro"
         prefix="€"
         mb="md"
-        value={price}
-        onChange={priceChange || 0.0}
+        value={price || 0.0}
+        onChange={(value) => {
+          setPrice(value);
+        }}
       />
       <NumberInput
         label="Stock"
         required
         placeholder="stock"
-        suffix=" Items in stock"
         mt="md"
-        value={stock}
-        onChange={stockChange || 1}
+        value={stock || 1}
+        onChange={(value) => {
+          setStock(value);
+        }}
       />
       <Select
         label="Category"
@@ -111,15 +130,18 @@ export default function CreateProduct({ close }) {
         placeholder="Pick value"
         data={["food", "pottery", "jewelry, clothing", "art"]}
         value={category}
-        onChange={categoryChange}
+        onChange={(value) => {
+          setCategoroy(value);
+        }}
         searchable
       />
       <FileInput
         label="Upload image"
         placeholder="Upload image"
-        multiple
         value={image}
-        onChange={handleFileChange}
+        onChange={(value) => {
+          setImage(value);
+        }}
       />
       <p>{error}</p>
       <Button onClick={handleSubmit}>Create Product</Button>
