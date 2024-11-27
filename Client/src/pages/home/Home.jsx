@@ -24,7 +24,11 @@ export default function Home({ callbackToAddItem }) {
 
   return (
     <div className="homepage">
-      <Products products={products} errorMessage={errorMessage} />
+      <Products
+        products={products}
+        errorMessage={errorMessage}
+        callbackToAddItem={callbackToAddItem}
+      />
     </div>
   );
 }
