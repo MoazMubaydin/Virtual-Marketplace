@@ -15,7 +15,7 @@ export default function CreateProduct({ close }) {
   const [description, setDescription] = useState("");
   const [price, setPrice] = useState(0);
   const [category, setCategoroy] = useState("");
-  const [images, setImages] = useState([]);
+  const [image, setImage] = useState("");
   const [stock, setStock] = useState(1);
   const [error, setError] = useState();
   const nameChange = (e) => {
@@ -36,7 +36,7 @@ export default function CreateProduct({ close }) {
   };
   const handleFileChange = (files) => {
     const fileNames = files.map((file) => file.name);
-    setImages(fileNames);
+    setImage(fileNames);
   };
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -66,7 +66,7 @@ export default function CreateProduct({ close }) {
     setDescription("");
     setPrice(0);
     setCategoroy("");
-    setImages([]);
+    setImage([]);
     setStock(1);
     setError("");
     close();
@@ -115,10 +115,10 @@ export default function CreateProduct({ close }) {
         searchable
       />
       <FileInput
-        label="Upload images"
-        placeholder="Upload images"
+        label="Upload image"
+        placeholder="Upload image"
         multiple
-        value={images}
+        value={image}
         onChange={handleFileChange}
       />
       <p>{error}</p>
