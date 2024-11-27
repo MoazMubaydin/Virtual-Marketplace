@@ -1,39 +1,30 @@
-import { Badge, Button, Card, Group } from "@mantine/core";
+import { Badge, Button, Card, Group, Image } from "@mantine/core";
 import { ToastContainer, toast } from "react-toastify";
 import { useLocation, useNavigate } from "react-router-dom";
 import "./products.css";
 import { AuthContext } from "../../context/auth.context";
 import { useContext } from "react";
-import axios from "axios";
 const DB_URL = import.meta.env.VITE_DATABASE_API_URL;
 
-export default function Products({ products, errorMessage, setErrorMessage }) {
+export default function Products({
+  products,
+  errorMessage,
+  deleteProduct,
+  callbackToAddItem,
+}) {
   const { user, isLoggedIn } = useContext(AuthContext);
   const notify = () => toast.success("Item deleted");
   const navigate = useNavigate();
   const location = useLocation();
-  const deleteProduct = async (productId) => {
-    try {
-      console.log(productId);
-      const response = await axios.delete(
-        `${DB_URL}/api/products/${productId}`
-      );
-      console.log(response);
-    } catch (error) {
-      console.log(error);
-      setErrorMessage(error);
-    }
-  };
-
   return (
     <div className="cardPage">
       {products &&
         products.map((product) => {
           return (
-            <div key={product._id} className="cardHP">
-              <Card radius="lg" withBorder>
+            <div key={product._id}>
+              <Card radius="lg" withBorder m="md" className="cardHP">
                 <Card.Section>
-                  <img src={product.image} alt={product.name} />
+                  <Image src={product.image} height={160} alt={product.name} />
                 </Card.Section>
                 <Group justify="space-between" mt="md" className="name">
                   <h4>{product.name}</h4>
@@ -91,11 +82,7 @@ export default function Products({ products, errorMessage, setErrorMessage }) {
             </div>
           );
         })}
-      <ToastContainer
-        className="toast"
-        position="bottom-right"
-        autoClose={2000}
-      />
+
       {errorMessage && <p className="error-message">{errorMessage}</p>}
     </div>
   );
