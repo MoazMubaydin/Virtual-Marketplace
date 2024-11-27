@@ -16,7 +16,9 @@ nav{
 .clickable{
     cursor: pointer
 }
-
+.plus{
+    margin-top: 0.2em;
+}
 .logo{
     height: 5em;
     border-radius:100%;

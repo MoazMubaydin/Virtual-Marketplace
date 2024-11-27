@@ -8,7 +8,7 @@ import {
   IconSettings,
   IconBox,
   IconMessage,
-  IconCirclePlusFilled,
+  IconCirclePlus,
 } from "@tabler/icons-react";
 import { rem } from "@mantine/core";
 import { useContext } from "react";
@@ -49,9 +49,14 @@ export default function Navbar({ cart }) {
                 <Modal opened={opened} onClose={close} title="Create Product">
                   <CreateProduct close={close} />
                 </Modal>
-                <Button onClick={open} variant="transparent" color="white">
-                  <IconCirclePlusFilled />
-                </Button>
+
+                <IconCirclePlus
+                  stroke={1}
+                  size={30}
+                  color="#2c2c2c"
+                  onClick={open}
+                  className="clickable plus"
+                />
               </>
             )}
             <IconShoppingBag
