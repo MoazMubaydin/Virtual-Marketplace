@@ -2,7 +2,7 @@ import "@mantine/core";
 import { Avatar, Menu, Group, Button, Modal } from "@mantine/core";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import {
-  IconShoppingCart,
+  IconShoppingBag,
   IconSearch,
   IconLogout,
   IconSettings,
@@ -25,17 +25,20 @@ export default function Navbar({ cart }) {
   return (
     <nav className="navbar">
       <img
-        src="../../public/Logo.png"
+        src="../../public/Logo.svg"
         alt="site Logo"
-        className="logo"
+        className="logo clickable"
         onClick={() => {
           navigate("");
         }}
       />
 
       <div id="navbar-search">
-        <IconSearch className="search-icon" size={20} />
-        <input type="search" placeholder=" Search for a product..." />
+        <input
+          className="search"
+          type="search"
+          placeholder="Search for a product..."
+        />
       </div>
 
       {isLoggedIn && (
@@ -51,14 +54,21 @@ export default function Navbar({ cart }) {
                 </Button>
               </>
             )}
-            <IconShoppingCart
+            <IconShoppingBag
+              className="clickable"
               size={30}
+              stroke={1}
+              color="#2c2c2c"
               cart={cart}
               onClick={() => navigate(`/user/shopping-cart/${user._id}`)}
             />
             <Menu shadow="md" width={200}>
               <Menu.Target>
-                <Avatar alt={user.name} src={null || user.image} />
+                <Avatar
+                  alt={user.name}
+                  src={null || user.image}
+                  className="clickable"
+                />
               </Menu.Target>
 
               <Menu.Dropdown>
