@@ -6,7 +6,7 @@ const imageUploader = require("../config/cloudinary.config");
 //Creating a new product
 
 router.post("/products", isAuthenticated, async (req, res) => {
-  const { name, price, category, stock } = req.body;
+  const { name, price, category, stock, image, description } = req.body;
 
   if (!name || !price || !category || !stock) {
     return res
@@ -15,10 +15,11 @@ router.post("/products", isAuthenticated, async (req, res) => {
   }
 
   try {
-    const image = req.file?.path;
+    //const image = req.file?.path;
     const productFromDB = await Product.create({
       name,
       price,
+      description,
       category,
       image: image,
       stock,
@@ -124,11 +125,11 @@ router.patch("/products/:productId", async (req, res) => {
     if (!checkUser) {
       return res.status(404).json({ error: "No product with that id found" });
     }
-    if (checkUser.owner !== req.payload._id) {
-      return res
-        .status(403)
-        .json({ error: "You are not authroized to update this product" });
-    }
+    //if (checkUser.owner !== req.payload._id) {
+    //return res
+    //.status(403)
+    //.json({ error: "You are not authroized to update this product" });
+    // }
     const updatedProductFromDB = await Product.findByIdAndUpdate(
       productId,
       updatedProduct,
@@ -149,11 +150,12 @@ router.delete("/products/:productId", async (req, res) => {
 
   try {
     const checkUser = await Product.findById(productId);
-    if (checkUser.owner !== req.payload._id) {
-      return res
-        .status(403)
-        .json({ error: "You are not authroized to delete this product" });
-    }
+
+    //if (checkUser.owner !== req.payload._id) {
+    //return res
+    //.status(403)
+    //.json({ error: "You are not authroized to delete this product" });
+    //}
     const deletedProduct = await Product.findByIdAndDelete(productId);
     if (!deletedProduct) {
       return res.status(404).json({ error: "No product with that id found" });
