@@ -9,6 +9,7 @@ import UserProducts from "./pages/userProducts/UserProducts";
 import Cart from "./pages/cart/Cart";
 function App() {
   const [cart, setCart] = useState([]);
+  const [products, setProducts] = useState(null);
 
   const addItem = (item) => {
     cart.push(item);
@@ -17,7 +18,7 @@ function App() {
   };
   return (
     <div className="App">
-      <Navbar cart={cart} />
+      <Navbar cart={cart} setProducts={setProducts} />
       <Routes>
         <Route path="/" element={<Home callbackToAddItem={addItem} />} />
         <Route path="/signup" element={<Signup />} />
@@ -30,7 +31,12 @@ function App() {
           path="/user/shopping-cart/:userId"
           element={<Cart cart={cart} />}
         />
-        <Route path="/user/products/:userId" element={<UserProducts />} />
+        <Route
+          path="/user/products/:userId"
+          element={
+            <UserProducts products={products} setProducts={setProducts} />
+          }
+        />
       </Routes>
     </div>
   );

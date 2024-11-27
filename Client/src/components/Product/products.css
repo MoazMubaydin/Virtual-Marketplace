@@ -3,7 +3,6 @@
         display: flex;
         justify-content: space-evenly;
         flex-wrap: wrap ;
-    
     }
 
 .description{
@@ -12,7 +11,8 @@
 
 .cardHP{
     margin-top: 2em;
-    
+    min-width: 23em;        
+
 }
 
 .name{

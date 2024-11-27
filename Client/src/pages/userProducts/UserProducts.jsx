@@ -4,9 +4,8 @@ import { useParams } from "react-router-dom";
 import Products from "../../components/Product/Products";
 const DB_URL = import.meta.env.VITE_DATABASE_API_URL;
 
-export default function UserProducts() {
+export default function UserProducts({ setProducts, products }) {
   const [errorMessage, setErrorMessage] = useState(undefined);
-  const [products, setProducts] = useState(null);
   const { userId } = useParams();
   const deleteProduct = async (productId) => {
     try {

@@ -16,7 +16,7 @@ import { AuthContext } from "../../context/auth.context";
 import "./navbar.css";
 import { useDisclosure } from "@mantine/hooks";
 import CreateProduct from "../Product/CreateProduct";
-export default function Navbar({ cart }) {
+export default function Navbar({ cart, setProducts }) {
   const { isLoggedIn, user, logOutUser } = useContext(AuthContext);
   const [opened, { open, close }] = useDisclosure(false);
 
@@ -47,7 +47,7 @@ export default function Navbar({ cart }) {
             {location.pathname === `/user/products/${user._id}` && (
               <>
                 <Modal opened={opened} onClose={close} title="Create Product">
-                  <CreateProduct close={close} />
+                  <CreateProduct close={close} setProducts={setProducts} />
                 </Modal>
 
                 <IconCirclePlus

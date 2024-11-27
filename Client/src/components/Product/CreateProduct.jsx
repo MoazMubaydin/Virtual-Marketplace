@@ -7,10 +7,11 @@ import {
   TextInput,
 } from "@mantine/core";
 import axios from "axios";
-import { useState } from "react";
+import { useContext, useState } from "react";
+import { AuthContext } from "../../context/auth.context";
 const DB_URL = import.meta.env.VITE_DATABASE_API_URL;
 
-export default function CreateProduct({ close }) {
+export default function CreateProduct({ close, setProducts }) {
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
   const [price, setPrice] = useState(0);
@@ -19,6 +20,7 @@ export default function CreateProduct({ close }) {
   const [stock, setStock] = useState(1);
   const [error, setError] = useState();
 
+  const { user } = useContext(AuthContext);
   const imageUpload = async () => {
     if (!image) {
       return alert("please select an image to upload.");
@@ -34,6 +36,18 @@ export default function CreateProduct({ close }) {
     } catch (error) {
       console.log("Error uploading image", error);
       setError(error);
+    }
+  };
+  const getProducts = async () => {
+    try {
+      const response = await axios.get(
+        `${DB_URL}/api/user/products/${user._id}`
+      );
+      if ("products" in response.data) {
+        setProducts(response.data.products);
+      }
+    } catch (error) {
+      console.log(error);
     }
   };
   const handleSubmit = async (e) => {
@@ -55,7 +69,6 @@ export default function CreateProduct({ close }) {
         image: uploadedImage,
         stock,
       };
-      console.log("Payload being sent:", newItem);
 
       const token = localStorage.getItem("authToken");
       if (!token) {
@@ -67,8 +80,7 @@ export default function CreateProduct({ close }) {
         headers: { Authorization: `Bearer ${token}` },
       });
 
-      console.log(response);
-
+      getProducts();
       // Reset form fields
       setName("");
       setDescription("");

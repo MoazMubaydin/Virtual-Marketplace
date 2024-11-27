@@ -29,6 +29,7 @@ export default function Home({ callbackToAddItem }) {
         errorMessage={errorMessage}
         callbackToAddItem={callbackToAddItem}
       />
+      {errorMessage && <p className="error-message">{errorMessage}</p>}
     </div>
   );
 }
