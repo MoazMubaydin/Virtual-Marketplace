@@ -1,4 +1,4 @@
-import { Badge, Button, Card, Group } from "@mantine/core";
+import { Badge, Button, Card, Group, Image } from "@mantine/core";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
@@ -29,7 +29,7 @@ export default function Product({ callbackToAddItem }) {
       {product && (
         <Card>
           <Card.Section>
-            <img src={product.image} alt={product.name} />
+            <Image src={product.image} height={400} alt={product.name} />
           </Card.Section>
           <Group justify="space-between" mt="md" mb="xs">
             <p>{product.name}</p>
