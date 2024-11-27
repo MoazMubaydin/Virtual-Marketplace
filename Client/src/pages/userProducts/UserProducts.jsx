@@ -8,7 +8,18 @@ export default function UserProducts() {
   const [errorMessage, setErrorMessage] = useState(undefined);
   const [products, setProducts] = useState(null);
   const { userId } = useParams();
-
+  const deleteProduct = async (productId) => {
+    try {
+      console.log(productId);
+      const response = await axios.delete(
+        `${DB_URL}/api/products/${productId}`
+      );
+      getProducts();
+    } catch (error) {
+      console.log(error);
+      setErrorMessage(error);
+    }
+  };
   useEffect(() => {
     getProducts();
   }, []);
@@ -30,6 +41,7 @@ export default function UserProducts() {
         products={products}
         errorMessage={errorMessage}
         setErrorMessage={setErrorMessage}
+        deleteProduct={deleteProduct}
       />
       {errorMessage && <p className="error-message">{errorMessage}</p>}
     </div>
