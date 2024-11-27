@@ -1,8 +1,11 @@
-.homepage{
-    max-width: 80%;
- 
 
-}
+    .cardPage{
+        display: flex;
+        justify-content: space-evenly;
+        flex-wrap: wrap ;
+    
+    }
+
 .description{
     color: rgb(149, 145, 145);
 }
