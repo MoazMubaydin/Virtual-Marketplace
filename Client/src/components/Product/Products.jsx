@@ -1,11 +1,12 @@
-import { Badge, Button, Card, Group, Image } from "@mantine/core";
+import { Badge, Button, Card, Group, Image, Modal } from "@mantine/core";
 import { ToastContainer, toast } from "react-toastify";
+import EditProduct from "./EditProduct";
 import { useLocation, useNavigate } from "react-router-dom";
 import "./products.css";
 import { AuthContext } from "../../context/auth.context";
-import { useContext } from "react";
-const DB_URL = import.meta.env.VITE_DATABASE_API_URL;
-
+import { useContext, useState } from "react";
+import { useDisclosure } from "@mantine/hooks";
+import { IconEdit, IconTrash } from "@tabler/icons-react";
 export default function Products({
   products,
   errorMessage,
@@ -16,8 +17,26 @@ export default function Products({
   const notify = () => toast.success("Item deleted");
   const navigate = useNavigate();
   const location = useLocation();
+  const [opened, { open, close }] = useDisclosure(false);
+  const [productToUpdate, setProductToUpdate] = useState("");
   return (
     <div className="cardPage">
+      <Modal opened={opened} onClose={close} title="Update Product">
+        <EditProduct close={close} product={productToUpdate} />
+      </Modal>
+      <ToastContainer
+        position="bottom-right"
+        autoClose={2000}
+        hideProgressBar
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss={false}
+        draggable
+        pauseOnHover={false}
+        theme="light"
+        transition:Bounce
+      />
       {products &&
         products.map((product) => {
           return (
@@ -38,20 +57,39 @@ export default function Products({
                 {isLoggedIn &&
                 location.pathname === `/user/products/${user._id}` ? (
                   <Group>
-                    <Button color="blue" radius="md">
-                      Edit
-                    </Button>
                     <Button
+                      id="button"
                       color="blue"
+                      variant="outline"
+                      radius="md"
+                      mr={40}
+                      onClick={() => {
+                        navigate(`/products/${product._id}`);
+                      }}
+                    >
+                      More details
+                    </Button>
+                    <IconEdit
+                      className="clickable"
+                      color="#c2c2c2"
+                      radius="md"
+                      stroke={1.25}
+                      onClick={() => {
+                        setProductToUpdate(product);
+                        open();
+                      }}
+                    />
+                    <IconTrash
+                      className="clickable"
+                      color="red"
+                      stroke={1}
                       variant="outline"
                       radius="md"
                       onClick={() => {
                         deleteProduct(product._id);
                         notify();
                       }}
-                    >
-                      Delete
-                    </Button>
+                    />
                   </Group>
                 ) : (
                   <Group>

@@ -8,7 +8,9 @@
 .description{
     color: rgb(149, 145, 145);
 }
-
+#button{
+    width: 15em;
+}
 .cardHP{
     margin-top: 2em;
     min-width: 23em;        
