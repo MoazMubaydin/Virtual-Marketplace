@@ -17,7 +17,15 @@ export default function Signup() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+    if (
+      !String(email)
+        .toLowerCase()
+        .match(
+          /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|.(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+        )
+    ) {
+      return setErrorMessage("Please Provide a valid email adress");
+    }
     const requestBody = { email, password, name };
     try {
       const response = await axios.post(DB_URL + "/auth/signup", requestBody);
