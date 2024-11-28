@@ -32,15 +32,21 @@ export default function Navbar({ cart, setProducts }) {
           navigate("");
         }}
       />
-
-      <div id="navbar-search">
-        <input
-          className="search"
-          type="search"
-          placeholder="Search for a product..."
-        />
-      </div>
-
+      {location.pathname == `/login` && (
+        <>
+          <h3>Please enter you Email and Password</h3>
+          <p></p>
+        </>
+      )}
+      {location.pathname !== `/login` && (
+        <div id="navbar-search">
+          <input
+            className="search"
+            type="search"
+            placeholder="Search for a product..."
+          />
+        </div>
+      )}
       {isLoggedIn && (
         <>
           <Group>
@@ -124,13 +130,10 @@ export default function Navbar({ cart, setProducts }) {
         </>
       )}
 
-      {!isLoggedIn && (
+      {!isLoggedIn && location.pathname !== `/login` && (
         <Group>
-          <Link to="/signup">
-            <button>Sign Up</button>{" "}
-          </Link>
           <Link to="/login">
-            <button>Login</button>{" "}
+            <Button>Login</Button>{" "}
           </Link>
         </Group>
       )}
