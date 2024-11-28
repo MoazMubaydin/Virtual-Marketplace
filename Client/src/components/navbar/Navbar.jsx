@@ -107,6 +107,7 @@ export default function Navbar({ setProducts, query, setQuery, itemNum }) {
                   My Products
                 </Menu.Item>
                 <Menu.Item
+                  onClick={() => navigate("/user/orders")}
                   leftSection={
                     <IconTruckDelivery
                       style={{ width: rem(14), height: rem(14) }}
