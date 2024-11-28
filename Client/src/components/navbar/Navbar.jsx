@@ -7,7 +7,7 @@ import {
   IconLogout,
   IconSettings,
   IconBox,
-  IconMessage,
+  IconTruckDelivery,
   IconCirclePlus,
 } from "@tabler/icons-react";
 import { rem } from "@mantine/core";
@@ -53,21 +53,20 @@ export default function Navbar({ cart, setProducts, query, setQuery }) {
       {isLoggedIn && (
         <>
           <Group>
-            {location.pathname === `/user/products/${user._id}` && (
-              <>
-                <Modal opened={opened} onClose={close} title="Create Product">
-                  <CreateProduct close={close} setProducts={setProducts} />
-                </Modal>
+            <>
+              <Modal opened={opened} onClose={close} title="Create Product">
+                <CreateProduct close={close} setProducts={setProducts} />
+              </Modal>
 
-                <IconCirclePlus
-                  stroke={1}
-                  size={30}
-                  color="#2c2c2c"
-                  onClick={open}
-                  className="clickable plus"
-                />
-              </>
-            )}
+              <IconCirclePlus
+                stroke={1}
+                size={30}
+                color="#2c2c2c"
+                onClick={open}
+                className="clickable plus"
+              />
+            </>
+
             <IconShoppingBag
               className="clickable"
               size={30}
@@ -102,10 +101,12 @@ export default function Navbar({ cart, setProducts, query, setQuery }) {
                 </Menu.Item>
                 <Menu.Item
                   leftSection={
-                    <IconMessage style={{ width: rem(14), height: rem(14) }} />
+                    <IconTruckDelivery
+                      style={{ width: rem(14), height: rem(14) }}
+                    />
                   }
                 >
-                  Messages
+                  My orders
                 </Menu.Item>
 
                 <Menu.Divider />
