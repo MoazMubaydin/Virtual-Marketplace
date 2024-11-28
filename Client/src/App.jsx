@@ -32,8 +32,17 @@ function App() {
     }
   }, [query, userProducts, homeProducts]);
 
-  const addItem = (item) => {
-    setCart([item, ...cart]);
+  const addItem = (newItem) => {
+    const existingItemIndex = cart.findIndex(
+      (item) => item._id === newItem._id
+    );
+    if (existingItemIndex !== -1) {
+      const updatedCart = [...cart];
+      console.log(updatedCart[existingItemIndex]);
+      updatedCart[existingItemIndex].quantity += newItem.quantity || 1;
+    } else {
+      setCart([...cart, { ...newItem, quantity: 1 }]);
+    }
   };
   return (
     <div className="App">
@@ -63,7 +72,7 @@ function App() {
         />
         <Route
           path="/user/shopping-cart/:userId"
-          element={<Cart cart={cart} />}
+          element={<Cart cart={cart} setCart={setCart} />}
         />
         <Route
           path="/user/products/:userId"
