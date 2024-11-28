@@ -6,14 +6,22 @@ const { isAuthenticated } = require("../middleware/jwt.middleware");
 
 router.post("/orders", isAuthenticated, async (req, res) => {
   const { products } = req.body;
-  if (!products) {
+  if (!Array.isArray(products) || products.length === 0) {
     return res
       .status(400)
-      .json({ error: "All required fields must be entered." });
+      .json({ error: "Products must be a non empty array." });
+  }
+  for (const product of products) {
+    if (!product.productId || !product.quantity || !product.price) {
+      return res.status(400).json({
+        error: "Each product must have productId, quantity, and price.",
+      });
+    }
   }
   try {
     const newOrder = await Order.create({ buyerId: req.payload._id, products });
-    res.status(201).json(newOrder);
+    const populatedOrder = await newOrder.populate("buyerId", "name email");
+    res.status(201).json(populatedOrder);
   } catch (error) {
     console.log("Error creating order.", error);
     res
