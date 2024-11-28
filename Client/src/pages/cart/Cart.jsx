@@ -1,12 +1,43 @@
 import { Button, Table, Image, Group } from "@mantine/core";
 import { IconTrash } from "@tabler/icons-react";
+import axios from "axios";
 import { useEffect, useState } from "react";
+const DB_URL = import.meta.env.VITE_DATABASE_API_URL;
 
 export default function Cart({ cart, setCart }) {
   const [totalPrice, setTotalPrice] = useState();
+
   const removeItem = (item) => {
     cart.splice(item, 1);
     setCart([...cart]);
+  };
+  const sendOrder = async () => {
+    const newOrder = [];
+    cart.map((product) => {
+      newOrder.push({
+        productId: product._id,
+        quantity: product.quantity,
+        price: product.quantity * product.price,
+      });
+    });
+
+    try {
+      const token = localStorage.getItem("authToken");
+      if (!token) {
+        console.error("No token found in localStorage");
+        return;
+      }
+      const response = await axios.post(
+        `${DB_URL}/api/orders`,
+        { products: newOrder },
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
+      setCart([]);
+    } catch (error) {
+      console.log(error);
+    }
   };
   useEffect(() => {
     const newTotalPrice = cart.reduce(
@@ -53,7 +84,9 @@ export default function Cart({ cart, setCart }) {
       </Table.ScrollContainer>
       <Group>
         <h3>Total Price: {totalPrice} €</h3>
-        <Button ml={30}>Place Order</Button>
+        <Button onClick={sendOrder} ml={30}>
+          Place Order
+        </Button>
       </Group>
     </>
   );
