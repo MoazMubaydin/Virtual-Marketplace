@@ -1,6 +1,6 @@
 import { useContext, useState } from "react";
 import axios from "axios";
-import { Button, TextInput, PasswordInput } from "@mantine/core";
+import { Button, TextInput, PasswordInput, Card } from "@mantine/core";
 import { AuthContext } from "../context/auth.context";
 import { Link, useNavigate } from "react-router-dom";
 const DB_URL = import.meta.env.VITE_DATABASE_API_URL;
@@ -38,28 +38,30 @@ export default function Login() {
   };
   return (
     <>
-      <form onSubmit={handleSubmit}>
-        <TextInput
-          label="Email"
-          value={email}
-          onChange={emailChange}
-          placeholder="email"
-        />
-        <PasswordInput
-          label="Password"
-          value={password}
-          onChange={passwordChange}
-          placeholder="password"
-        />
+      <Card mt={20} withBorder>
+        <form onSubmit={handleSubmit}>
+          <TextInput
+            label="Email"
+            value={email}
+            onChange={emailChange}
+            placeholder="email"
+          />
+          <PasswordInput
+            label="Password"
+            value={password}
+            onChange={passwordChange}
+            placeholder="password"
+          />
 
-        <Button type="submit" variant="default" color="red">
-          Login
-        </Button>
-      </form>
-      {errorMessage && <p className="error-message">{errorMessage}</p>}
+          <Button mt="20" type="submit" variant="filled" color="blue">
+            Login
+          </Button>
+        </form>
+        {errorMessage && <p className="error-message">{errorMessage}</p>}
 
-      <p>Don't have an account yet?</p>
-      <Link to={"/signup"}> Sign Up</Link>
+        <p>Don't have an account yet?</p>
+        <Link to={"/signup"}> Sign Up</Link>
+      </Card>
     </>
   );
 }

@@ -1,6 +1,6 @@
 import { useState } from "react";
 import axios from "axios";
-import { Button, TextInput, PasswordInput } from "@mantine/core";
+import { Button, TextInput, PasswordInput, Card } from "@mantine/core";
 import { Link, useNavigate } from "react-router-dom";
 const DB_URL = import.meta.env.VITE_DATABASE_API_URL;
 export default function Signup() {
@@ -36,34 +36,36 @@ export default function Signup() {
   };
   return (
     <>
-      <form onSubmit={handleSubmit}>
-        <TextInput
-          label="Email"
-          value={email}
-          onChange={emailChange}
-          placeholder="email"
-        />
-        <PasswordInput
-          label="Password"
-          value={password}
-          onChange={passwordChange}
-          placeholder="password"
-        />
+      <Card withBorder m={20}>
+        <form onSubmit={handleSubmit}>
+          <TextInput
+            label="Email"
+            value={email}
+            onChange={emailChange}
+            placeholder="email"
+          />
+          <PasswordInput
+            label="Password"
+            value={password}
+            onChange={passwordChange}
+            placeholder="password"
+          />
 
-        <TextInput
-          label="Name"
-          value={name}
-          onChange={nameChange}
-          placeholder="name"
-        />
-        <Button type="submit" variant="default" color="red">
-          Signup
-        </Button>
-      </form>
-      {errorMessage && <p className="error-message">{errorMessage}</p>}
+          <TextInput
+            label="Name"
+            value={name}
+            onChange={nameChange}
+            placeholder="name"
+          />
+          <Button mt="20" type="submit" variant="filed" color="blue">
+            Signup
+          </Button>
+        </form>
+        {errorMessage && <p className="error-message">{errorMessage}</p>}
 
-      <p>Already have account?</p>
-      <Link to={"/login"}> Login</Link>
+        <p>Already have account? </p>
+        <Link to={"/login"}> Login</Link>
+      </Card>
     </>
   );
 }
