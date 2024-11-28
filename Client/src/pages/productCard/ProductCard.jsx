@@ -3,11 +3,20 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import "./productCard.css";
+import { toast, ToastContainer } from "react-toastify";
 const DB_URL = import.meta.env.VITE_DATABASE_API_URL;
 
 export default function Product({ callbackToAddItem }) {
   const [errorMessage, setErrorMessage] = useState(undefined);
-
+  const notify = (name) =>
+    toast(
+      <div>
+        <p>{name} successfully added to shopping bag</p>
+        <Button onClick={() => navigate(`/user/shopping-cart/${user._id}`)}>
+          Shopping bag
+        </Button>
+      </div>
+    );
   const { productId } = useParams();
   const [product, setProduct] = useState();
   useEffect(() => {
@@ -40,10 +49,23 @@ export default function Product({ callbackToAddItem }) {
             color="blue"
             mt="md"
             radius="md"
-            onClick={() => callbackToAddItem(product)}
+            onClick={() => {
+              callbackToAddItem(product);
+
+              notify(product.name);
+            }}
           >
             Add to shopping cart
           </Button>
+          <ToastContainer
+            position="bottom-right"
+            autoClose={3000}
+            newestOnTop={false}
+            closeOnClick
+            pauseOnFocusLoss={false}
+            pauseOnHover={true}
+            transition:Bounce
+          />
         </Card>
       )}
       {errorMessage && <p className="error-message">{errorMessage}</p>}
