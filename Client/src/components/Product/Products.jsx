@@ -9,6 +9,7 @@ import { useDisclosure } from "@mantine/hooks";
 import { IconEdit, IconTrash } from "@tabler/icons-react";
 export default function Products({
   products,
+  setProducts,
   errorMessage,
   deleteProduct,
   callbackToAddItem,
@@ -22,7 +23,11 @@ export default function Products({
   return (
     <div className="cardPage">
       <Modal opened={opened} onClose={close} title="Update Product">
-        <EditProduct close={close} product={productToUpdate} />
+        <EditProduct
+          close={close}
+          product={productToUpdate}
+          setProducts={setProducts}
+        />
       </Modal>
       <ToastContainer
         position="bottom-right"

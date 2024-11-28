@@ -8,10 +8,11 @@ import {
   TextInput,
 } from "@mantine/core";
 import axios from "axios";
-import { useState } from "react";
+import { useContext, useState } from "react";
+import { AuthContext } from "../../context/auth.context";
 const DB_URL = import.meta.env.VITE_DATABASE_API_URL;
 
-export default function EditProduct({ close, product }) {
+export default function EditProduct({ close, product, setProducts }) {
   const [name, setName] = useState(product.name);
   const [description, setDescription] = useState(product.description);
   const [price, setPrice] = useState(product.price);
@@ -19,6 +20,8 @@ export default function EditProduct({ close, product }) {
   const [image, setImage] = useState(null);
   const [stock, setStock] = useState(product.stock);
   const [error, setError] = useState();
+  const { user } = useContext(AuthContext);
+
   const categories = [
     "Food & Beverages",
     "Regional Delicacies",
@@ -85,6 +88,18 @@ export default function EditProduct({ close, product }) {
       setError(error);
     }
   };
+  const getProducts = async () => {
+    try {
+      const response = await axios.get(
+        `${DB_URL}/api/user/products/${user._id}`
+      );
+      if ("products" in response.data) {
+        setProducts(response.data.products);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!name || !description || !price || !category || !stock) {
@@ -121,7 +136,7 @@ export default function EditProduct({ close, product }) {
           headers: { Authorization: `Bearer ${token}` },
         }
       );
-
+      getProducts();
       close();
     } catch (error) {
       console.error("Error submitting product:", error);

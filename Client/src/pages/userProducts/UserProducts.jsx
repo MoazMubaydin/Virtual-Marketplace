@@ -37,6 +37,7 @@ export default function UserProducts({ setProducts, products }) {
   return (
     <div className="homepage">
       <Products
+        setProducts={setProducts}
         products={products}
         errorMessage={errorMessage}
         setErrorMessage={setErrorMessage}
