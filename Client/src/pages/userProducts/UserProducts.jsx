@@ -9,9 +9,16 @@ export default function UserProducts({ setProducts, products }) {
   const { userId } = useParams();
   const deleteProduct = async (productId) => {
     try {
-      console.log(productId);
+      const token = localStorage.getItem("authToken");
+      if (!token) {
+        console.error("No token found in localStorage");
+        return;
+      }
       const response = await axios.delete(
-        `${DB_URL}/api/products/${productId}`
+        `${DB_URL}/api/products/${productId}`,
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
       );
       getProducts();
     } catch (error) {
