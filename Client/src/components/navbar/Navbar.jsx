@@ -1,5 +1,5 @@
 import "@mantine/core";
-import { Avatar, Menu, Group, Button, Modal } from "@mantine/core";
+import { Avatar, Menu, Group, Button, Modal, Badge } from "@mantine/core";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import {
   IconShoppingBag,
@@ -22,7 +22,6 @@ export default function Navbar({ cart, setProducts, query, setQuery }) {
 
   const navigate = useNavigate();
   const location = useLocation();
-
   return (
     <nav className="navbar">
       <img
@@ -66,15 +65,23 @@ export default function Navbar({ cart, setProducts, query, setQuery }) {
                 className="clickable plus"
               />
             </>
-
-            <IconShoppingBag
-              className="clickable"
-              size={30}
-              stroke={1}
-              color="#2c2c2c"
-              cart={cart}
-              onClick={() => navigate(`/user/shopping-cart/${user._id}`)}
-            />
+            <div className="shopping-cart-container">
+              <IconShoppingBag
+                size={30}
+                stroke={1}
+                color="#2c2c2c"
+                className="clickable"
+                onClick={() => navigate(`/user/shopping-cart/${user._id}`)}
+              />
+              <Badge
+                className="shopping-cart-badge"
+                color="red"
+                size="sm"
+                variant="filled"
+              >
+                {cart.length}
+              </Badge>
+            </div>
             <Menu shadow="md" width={200}>
               <Menu.Target>
                 <Avatar

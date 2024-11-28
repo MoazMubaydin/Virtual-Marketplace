@@ -31,10 +31,9 @@ function App() {
       );
     }
   }, [query, userProducts, homeProducts]);
+
   const addItem = (item) => {
-    cart.push(item);
-    setCart(cart);
-    console.log(cart);
+    setCart([item, ...cart]);
   };
   return (
     <div className="App">
