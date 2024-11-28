@@ -5,9 +5,8 @@ import { useEffect, useState } from "react";
 import Products from "../../components/Product/Products";
 const DB_URL = import.meta.env.VITE_DATABASE_API_URL;
 
-export default function Home({ callbackToAddItem }) {
+export default function Home({ callbackToAddItem, products, setProducts }) {
   const [errorMessage, setErrorMessage] = useState(undefined);
-  const [products, setProducts] = useState(null);
 
   useEffect(() => {
     getProducts();

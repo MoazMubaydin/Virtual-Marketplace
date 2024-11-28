@@ -16,12 +16,13 @@ import { AuthContext } from "../../context/auth.context";
 import "./navbar.css";
 import { useDisclosure } from "@mantine/hooks";
 import CreateProduct from "../Product/CreateProduct";
-export default function Navbar({ cart, setProducts }) {
+export default function Navbar({ cart, setProducts, query, setQuery }) {
   const { isLoggedIn, user, logOutUser } = useContext(AuthContext);
   const [opened, { open, close }] = useDisclosure(false);
 
   const navigate = useNavigate();
   const location = useLocation();
+
   return (
     <nav className="navbar">
       <img
@@ -41,6 +42,8 @@ export default function Navbar({ cart, setProducts }) {
       {location.pathname !== `/login` && (
         <div id="navbar-search">
           <input
+            value={query}
+            onChange={(e) => setQuery(e.target.value)}
             className="search"
             type="search"
             placeholder="Search for a product..."

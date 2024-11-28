@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link, Route, Routes } from "react-router-dom";
 import Navbar from "./components/navbar/Navbar";
 import Signup from "./authentication/Signup";
@@ -9,8 +9,28 @@ import UserProducts from "./pages/userProducts/UserProducts";
 import Cart from "./pages/cart/Cart";
 function App() {
   const [cart, setCart] = useState([]);
-  const [products, setProducts] = useState(null);
+  const [userProducts, setUserProducts] = useState(null);
+  const [query, setQuery] = useState("");
+  const [userfiltered, setUserFiltered] = useState(userProducts);
+  const [homeProducts, setHomeProducts] = useState(null);
+  const [homefiltered, setHomeFiltered] = useState(homeProducts);
 
+  useEffect(() => {
+    if (userProducts) {
+      setUserFiltered(
+        userProducts.filter((item) => {
+          return item.name.toLowerCase().includes(query.toLowerCase());
+        })
+      );
+    }
+    if (homeProducts) {
+      setHomeFiltered(
+        homeProducts.filter((item) => {
+          return item.name.toLowerCase().includes(query.toLowerCase());
+        })
+      );
+    }
+  }, [query, userProducts, homeProducts]);
   const addItem = (item) => {
     cart.push(item);
     setCart(cart);
@@ -18,9 +38,24 @@ function App() {
   };
   return (
     <div className="App">
-      <Navbar cart={cart} setProducts={setProducts} />
+      <Navbar
+        cart={cart}
+        setProducts={setUserProducts}
+        products={userProducts}
+        query={query}
+        setQuery={setQuery}
+      />
       <Routes>
-        <Route path="/" element={<Home callbackToAddItem={addItem} />} />
+        <Route
+          path="/"
+          element={
+            <Home
+              callbackToAddItem={addItem}
+              products={homefiltered}
+              setProducts={setHomeProducts}
+            />
+          }
+        />
         <Route path="/signup" element={<Signup />} />
         <Route path="/login" element={<Login />} />
         <Route
@@ -34,7 +69,10 @@ function App() {
         <Route
           path="/user/products/:userId"
           element={
-            <UserProducts products={products} setProducts={setProducts} />
+            <UserProducts
+              products={userfiltered}
+              setProducts={setUserProducts}
+            />
           }
         />
       </Routes>
