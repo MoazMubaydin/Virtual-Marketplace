@@ -210,7 +210,9 @@ export default function CreateProduct({ close, setProducts }) {
         }}
       />
       <p>{error}</p>
-      <Button onClick={handleSubmit}>Create Product</Button>
+      <Button onClick={handleSubmit} ml={"130"} mr={"130"}>
+        Create Product
+      </Button>
     </form>
   );
 }
