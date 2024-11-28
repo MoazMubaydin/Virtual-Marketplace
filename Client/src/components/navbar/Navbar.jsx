@@ -33,13 +33,13 @@ export default function Navbar({ cart, setProducts, query, setQuery }) {
           navigate("");
         }}
       />
-      {location.pathname == `/login` && (
+      {(location.pathname == `/login` || location.pathname == `/signup`) && (
         <>
-          <h3>Please enter you Email and Password</h3>
+          <h3>Please enter your Credentials </h3>
           <p></p>
         </>
       )}
-      {location.pathname !== `/login` && (
+      {location.pathname !== `/login` && location.pathname !== `/signup` && (
         <div id="navbar-search">
           <input
             value={query}
@@ -134,13 +134,15 @@ export default function Navbar({ cart, setProducts, query, setQuery }) {
         </>
       )}
 
-      {!isLoggedIn && location.pathname !== `/login` && (
-        <Group>
-          <Link to="/login">
-            <Button>Login</Button>{" "}
-          </Link>
-        </Group>
-      )}
+      {!isLoggedIn &&
+        location.pathname !== `/login` &&
+        location.pathname !== `/signup` && (
+          <Group>
+            <Link to="/login">
+              <Button>Login</Button>{" "}
+            </Link>
+          </Group>
+        )}
     </nav>
   );
 }
