@@ -12,19 +12,22 @@ import { useContext, useState } from "react";
 import { AuthContext } from "../../context/auth.context";
 const DB_URL = import.meta.env.VITE_DATABASE_API_URL;
 
-export default function CreateProduct({ close, setProducts }) {
-  const [name, setName] = useState();
-  const [description, setDescription] = useState();
-  const [price, setPrice] = useState();
-  const [category, setCategoroy] = useState();
-  const [image, setImage] = useState();
-  const [stock, setStock] = useState();
-  const [error, setError] = useState();
+export default function CreateProduct({
+  close,
+  setUserProducts,
+  setHomeProducts,
+}) {
+  const [name, setName] = useState(null);
+  const [description, setDescription] = useState(null);
+  const [price, setPrice] = useState(null);
+  const [category, setCategoroy] = useState(null);
+  const [image, setImage] = useState(null);
+  const [stock, setStock] = useState(null);
+  const [error, setError] = useState(null);
 
   const { user } = useContext(AuthContext);
   const imageUpload = async () => {
     const formData = new FormData();
-    console.log(image);
     formData.append("image", image);
     try {
       const responce = await axios.post(`${DB_URL}/api/upload`, formData, {
@@ -88,14 +91,24 @@ export default function CreateProduct({ close, setProducts }) {
     "Ornaments & Decorations",
     "Glühwein Sets",
   ];
-
-  const getProducts = async () => {
+  const getHomeProducts = async () => {
+    try {
+      const response = await axios.get(`${DB_URL}/api/products`);
+      console.log(response.data);
+      if ("products" in response.data) {
+        setHomeProducts(response.data);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  const getUserProducts = async () => {
     try {
       const response = await axios.get(
         `${DB_URL}/api/user/products/${user._id}`
       );
       if ("products" in response.data) {
-        setProducts(response.data.products);
+        setUserProducts(response.data.products);
       }
     } catch (error) {
       console.log(error);
@@ -130,9 +143,9 @@ export default function CreateProduct({ close, setProducts }) {
       const response = await axios.post(`${DB_URL}/api/products`, newItem, {
         headers: { Authorization: `Bearer ${token}` },
       });
+      getHomeProducts();
+      getUserProducts();
 
-      getProducts();
-      // Reset form fields
       setName("");
       setDescription("");
       setPrice(0);
