@@ -88,6 +88,10 @@ function App() {
           element={<Cart cart={cart} setCart={setCart} />}
         />
         <Route
+          path="/user/orders/:orderId"
+          element={<Cart cart={cart} setCart={setCart} />}
+        />
+        <Route
           path="/user/products/:userId"
           element={
             <UserProducts
