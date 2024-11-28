@@ -73,11 +73,13 @@ router.get("/products", async (req, res) => {
 router.get("/user/products/:userId", async (req, res) => {
   const { userId } = req.params;
   try {
-    const productsFromDB = await Product.find({ owner: userId });
+    const productsFromDB = await Product.find({ owner: userId }).sort({
+      createdAt: -1,
+    });
     if (productsFromDB.length === 0) {
       return res.status(200).json({ error: "User does not have any products" });
     }
-    res.status(200).json({ products: productsFromDB }).sort({ createdAt: -1 });
+    res.status(200).json({ products: productsFromDB });
   } catch (error) {
     console.log("error in GET /products/:userId");
     res
