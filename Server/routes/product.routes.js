@@ -52,7 +52,9 @@ router.post("/upload", imageUploader.single("image"), async (req, res) => {
 
 router.get("/products", async (req, res) => {
   try {
-    const productsFromDB = await Product.find().populate("owner", "name email");
+    const productsFromDB = await Product.find()
+      .populate("owner", "name email")
+      .sort({ createdAt: -1 });
     if (productsFromDB.length === 0) {
       return res
         .status(404)
@@ -75,7 +77,7 @@ router.get("/user/products/:userId", async (req, res) => {
     if (productsFromDB.length === 0) {
       return res.status(200).json({ error: "User does not have any products" });
     }
-    res.status(200).json({ products: productsFromDB });
+    res.status(200).json({ products: productsFromDB }).sort({ createdAt: -1 });
   } catch (error) {
     console.log("error in GET /products/:userId");
     res
