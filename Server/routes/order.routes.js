@@ -26,10 +26,10 @@ router.post("/orders", isAuthenticated, async (req, res) => {
 
 router.get("/orders", isAuthenticated, async (req, res) => {
   try {
-    const orders = await Order.find({ buyerId: req.payload._id }).populate(
-      "buyerId",
-      "name email"
-    );
+    const orders = await Order.find({ buyerId: req.payload._id })
+      .populate("buyerId", "name email")
+      .populate("products.productId", "name description price")
+      .sort({ createdAt: -1 });
     if (orders.length === 0) {
       return res.status(200).json({ error: "user does not have any orders" });
     }
