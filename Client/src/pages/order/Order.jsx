@@ -27,7 +27,7 @@ export default function Order() {
       setError(error);
     }
   };
-  if (!orders) {
+  if (!orders || orders.length === 0) {
     return <p>You have no orders</p>;
   }
   const rows = orders.map((order, i) => {
