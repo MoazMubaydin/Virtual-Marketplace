@@ -15,7 +15,15 @@ export default function Products({
   callbackToAddItem,
 }) {
   const { user, isLoggedIn } = useContext(AuthContext);
-  const notify = () => toast.success("Item deleted");
+  const notify = (name) =>
+    toast(
+      <div>
+        <p>{name} successfully added to shopping bag</p>
+        <Button onClick={() => navigate(`/user/shopping-cart/${user._id}`)}>
+          Shopping bag
+        </Button>
+      </div>
+    );
   const navigate = useNavigate();
   const location = useLocation();
   const [opened, { open, close }] = useDisclosure(false);
@@ -29,19 +37,6 @@ export default function Products({
           setProducts={setProducts}
         />
       </Modal>
-      <ToastContainer
-        position="bottom-right"
-        autoClose={2000}
-        hideProgressBar
-        newestOnTop={false}
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss={false}
-        draggable
-        pauseOnHover={false}
-        theme="light"
-        transition:Bounce
-      />
       {products &&
         products.map((product) => {
           return (
@@ -104,7 +99,7 @@ export default function Products({
                       onClick={() => {
                         callbackToAddItem(product);
 
-                        notify();
+                        notify(product.name);
                       }}
                     >
                       Add to shopping cart
@@ -124,8 +119,16 @@ export default function Products({
               </Card>
             </div>
           );
-        })}
-
+        })}{" "}
+      <ToastContainer
+        position="bottom-right"
+        autoClose={3000}
+        newestOnTop={false}
+        closeOnClick
+        pauseOnFocusLoss={false}
+        pauseOnHover={true}
+        transition:Bounce
+      />
       {errorMessage && <p className="error-message">{errorMessage}</p>}
     </div>
   );
