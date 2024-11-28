@@ -16,7 +16,7 @@ import { AuthContext } from "../../context/auth.context";
 import "./navbar.css";
 import { useDisclosure } from "@mantine/hooks";
 import CreateProduct from "../Product/CreateProduct";
-export default function Navbar({ cart, setProducts, query, setQuery }) {
+export default function Navbar({ setProducts, query, setQuery, itemNum }) {
   const { isLoggedIn, user, logOutUser } = useContext(AuthContext);
   const [opened, { open, close }] = useDisclosure(false);
 
@@ -79,7 +79,7 @@ export default function Navbar({ cart, setProducts, query, setQuery }) {
                 size="sm"
                 variant="filled"
               >
-                {cart.length}
+                {itemNum}
               </Badge>
             </div>
             <Menu shadow="md" width={200}>

@@ -14,6 +14,7 @@ function App() {
   const [userfiltered, setUserFiltered] = useState(userProducts);
   const [homeProducts, setHomeProducts] = useState(null);
   const [homefiltered, setHomeFiltered] = useState(homeProducts);
+  const [itemNum, setItemNum] = useState();
 
   useEffect(() => {
     if (userProducts) {
@@ -31,18 +32,25 @@ function App() {
       );
     }
   }, [query, userProducts, homeProducts]);
+  useEffect(() => {
+    updateBagNum();
+  }, [cart]);
 
+  const updateBagNum = () => {
+    const newNum = cart.reduce((sum, item) => (sum += item.quantity), 0);
+    setItemNum(newNum);
+  };
   const addItem = (newItem) => {
     const existingItemIndex = cart.findIndex(
       (item) => item._id === newItem._id
     );
     if (existingItemIndex !== -1) {
       const updatedCart = [...cart];
-      console.log(updatedCart[existingItemIndex]);
       updatedCart[existingItemIndex].quantity += newItem.quantity || 1;
     } else {
       setCart([...cart, { ...newItem, quantity: 1 }]);
     }
+    updateBagNum();
   };
   return (
     <div className="App">
@@ -52,6 +60,7 @@ function App() {
         products={userProducts}
         query={query}
         setQuery={setQuery}
+        itemNum={itemNum}
       />
       <Routes>
         <Route
