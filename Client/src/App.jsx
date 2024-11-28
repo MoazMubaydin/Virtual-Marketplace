@@ -7,6 +7,7 @@ import Home from "./pages/home/Home";
 import Product from "./pages/productCard/ProductCard";
 import UserProducts from "./pages/userProducts/UserProducts";
 import Cart from "./pages/cart/Cart";
+import Order from "./pages/order/Order";
 function App() {
   const [cart, setCart] = useState([]);
   const [userProducts, setUserProducts] = useState(null);
@@ -56,7 +57,8 @@ function App() {
     <div className="App">
       <Navbar
         cart={cart}
-        setProducts={setUserProducts}
+        setUserProducts={setUserProducts}
+        setHomeProducts={setHomeProducts}
         products={userProducts}
         query={query}
         setQuery={setQuery}
@@ -75,6 +77,8 @@ function App() {
         />
         <Route path="/signup" element={<Signup />} />
         <Route path="/login" element={<Login />} />
+        <Route path="/user/orders" element={<Order />} />
+
         <Route
           path="/products/:productId"
           element={<Product callbackToAddItem={addItem} />}
