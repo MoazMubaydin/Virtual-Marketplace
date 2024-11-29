@@ -9,6 +9,8 @@ import UserProducts from "./pages/userProducts/UserProducts";
 import Cart from "./pages/cart/Cart";
 import Order from "./pages/order/Order";
 import OrderDetails from "./pages/order/OrderDetails";
+import IsPrivate from "./components/IsPrivate";
+import IsAnon from "./components/IsAnon";
 function App() {
   const [cart, setCart] = useState([]);
   const [userProducts, setUserProducts] = useState(null);
@@ -76,8 +78,22 @@ function App() {
             />
           }
         />
-        <Route path="/signup" element={<Signup />} />
-        <Route path="/login" element={<Login />} />
+        <Route
+          path="/signup"
+          element={
+            <IsAnon>
+              <Signup />
+            </IsAnon>
+          }
+        />
+        <Route
+          path="/login"
+          element={
+            <IsAnon>
+              <Login />
+            </IsAnon>
+          }
+        />
         <Route path="/user/orders" element={<Order />} />
 
         <Route
@@ -86,19 +102,29 @@ function App() {
         />
         <Route
           path="/user/shopping-cart/:userId"
-          element={<Cart cart={cart} setCart={setCart} />}
+          element={
+            <IsPrivate>
+              <Cart cart={cart} setCart={setCart} />
+            </IsPrivate>
+          }
         />
         <Route
           path="/user/orders/:orderId"
-          element={<OrderDetails cart={cart} setCart={setCart} />}
+          element={
+            <IsPrivate>
+              <OrderDetails cart={cart} setCart={setCart} />
+            </IsPrivate>
+          }
         />
         <Route
           path="/user/products/:userId"
           element={
-            <UserProducts
-              products={userfiltered}
-              setProducts={setUserProducts}
-            />
+            <IsPrivate>
+              <UserProducts
+                products={userfiltered}
+                setProducts={setUserProducts}
+              />
+            </IsPrivate>
           }
         />
       </Routes>
