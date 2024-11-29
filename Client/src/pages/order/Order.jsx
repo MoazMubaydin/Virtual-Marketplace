@@ -34,8 +34,9 @@ export default function Order() {
     return (
       <Table.Tr key={order._id}>
         <Table.Td>{i}</Table.Td>
-        <Table.Td>{order.createdAt}</Table.Td>
-        <Table.Td>{order.products.length}</Table.Td>
+        <Table.Td>
+          {Date(order.createdAt).split(" ").slice(0, 4).join(" ")}
+        </Table.Td>
         <Table.Td>
           <Button onClick={() => navigate(`/user/orders/${order._id}`)}>
             More Details
@@ -51,8 +52,8 @@ export default function Order() {
           <Table.Thead>
             <Table.Tr>
               <Table.Th></Table.Th>
-              <Table.Th>Ordered At</Table.Th>
-              <Table.Th>number of items</Table.Th>
+              <Table.Th>Ordered on</Table.Th>
+              <Table.Th>Details</Table.Th>
             </Table.Tr>
           </Table.Thead>
           <Table.Tbody>{rows}</Table.Tbody>
