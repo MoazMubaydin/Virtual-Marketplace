@@ -8,6 +8,7 @@ import Product from "./pages/productCard/ProductCard";
 import UserProducts from "./pages/userProducts/UserProducts";
 import Cart from "./pages/cart/Cart";
 import Order from "./pages/order/Order";
+import OrderDetails from "./pages/order/OrderDetails";
 function App() {
   const [cart, setCart] = useState([]);
   const [userProducts, setUserProducts] = useState(null);
@@ -89,7 +90,7 @@ function App() {
         />
         <Route
           path="/user/orders/:orderId"
-          element={<Cart cart={cart} setCart={setCart} />}
+          element={<OrderDetails cart={cart} setCart={setCart} />}
         />
         <Route
           path="/user/products/:userId"
