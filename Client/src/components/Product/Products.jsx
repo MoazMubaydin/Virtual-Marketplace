@@ -43,8 +43,8 @@ export default function Products({
           Login or signup to add item to bag
         </Text>
         <Group justify="center" gap="lg">
-          <Button>Login</Button>
-          <Button>Signup</Button>
+          <Button onClick={() => navigate("/login")}>Login</Button>
+          <Button onClick={() => navigate("/signup")}>Signup</Button>
         </Group>
       </Modal>
       {products &&
