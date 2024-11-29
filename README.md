@@ -1,13 +1,20 @@
+A virtual marketplace where users can upload, edit, delete products, and purchase products from other users. This project includes:
+
+[Server:](./Server/README.md): Backend API for managing products, user authentication, and data storage.
+[Client](./Client/README.md): Frontend for user interaction with features like product listings, management, and checkout.
+
 ## Prerequisites
 
-- Node.js (v16+ recommended)
-- NPM
-
-## Prerequisites backend
+### backend
 
 - Node.js (v16+ recommended)
 - NPM or Yarn
 - MongoDB (or a compatible database)
+
+### frontend
+
+- Node.js (v16+ recommended)
+- NPM
 
 ## Installation
 
