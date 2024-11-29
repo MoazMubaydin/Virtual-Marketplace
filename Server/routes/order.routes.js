@@ -36,7 +36,7 @@ router.get("/orders", isAuthenticated, async (req, res) => {
   try {
     const orders = await Order.find({ buyerId: req.payload._id })
       .populate("buyerId", "name email")
-      .populate("products.productId", "name description price")
+      .populate("products.productId", "name description price ")
       .sort({ createdAt: -1 });
     if (orders.length === 0) {
       return res.status(200).json([]);
@@ -49,7 +49,29 @@ router.get("/orders", isAuthenticated, async (req, res) => {
       .json({ error: error.message || "error getting users orders" });
   }
 });
-
+//get order by id
+router.get("/orders/:orderId", isAuthenticated, async (req, res) => {
+  const { orderId } = req.params;
+  try {
+    const order = await Order.findById(orderId)
+      .populate("buyerId", "name email")
+      .populate("products.productId", "name description price image");
+    if (!order) {
+      return res.status(200).json({ message: "No order with that Id" });
+    }
+    // if (order.buyerId.toString() !== req.payload._id) {
+    // return res
+    //.status(401)
+    // .json({ error: "You are not authorized to view the order" });
+    //}
+    res.json(order);
+  } catch (error) {
+    console.log("error in GET / orders/userid", error);
+    res
+      .status(500)
+      .json({ error: error.message || "error getting users orders" });
+  }
+});
 //update an order
 router.patch("/orders/:orderId", isAuthenticated, async (req, res) => {
   const { orderId } = req.params;
