@@ -24,6 +24,7 @@ export default function Products({
         </Button>
       </div>
     );
+  const notifyDelete = (name) => toast(<p>{name} successfully Deleted</p>);
   const navigate = useNavigate();
   const location = useLocation();
   const [authModalOpen, setAuthModalOpen] = useState(false);
@@ -97,7 +98,7 @@ export default function Products({
                       radius="md"
                       onClick={() => {
                         deleteProduct(product._id);
-                        notify();
+                        notifyDelete();
                       }}
                     />
                   </Group>
