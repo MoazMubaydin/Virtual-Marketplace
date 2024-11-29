@@ -1,4 +1,4 @@
-import { Badge, Button, Card, Group, Image, Modal } from "@mantine/core";
+import { Badge, Button, Card, Group, Image, Modal, Text } from "@mantine/core";
 import { ToastContainer, toast } from "react-toastify";
 import EditProduct from "./EditProduct";
 import { useLocation, useNavigate } from "react-router-dom";
@@ -26,6 +26,7 @@ export default function Products({
     );
   const navigate = useNavigate();
   const location = useLocation();
+  const [authModalOpen, setAuthModalOpen] = useState(false);
   const [opened, { open, close }] = useDisclosure(false);
   const [productToUpdate, setProductToUpdate] = useState("");
   return (
@@ -36,6 +37,15 @@ export default function Products({
           product={productToUpdate}
           setProducts={setProducts}
         />
+      </Modal>
+      <Modal opened={authModalOpen} onClose={() => setAuthModalOpen(false)}>
+        <Text align="center" weight={500} size="lg" mb={20}>
+          Login or signup to add item to bag
+        </Text>
+        <Group justify="center" gap="lg">
+          <Button>Login</Button>
+          <Button>Signup</Button>
+        </Group>
       </Modal>
       {products &&
         products.map((product) => {
@@ -97,9 +107,12 @@ export default function Products({
                       color="blue"
                       radius="md"
                       onClick={() => {
-                        callbackToAddItem(product);
-
-                        notify(product.name);
+                        if (isLoggedIn) {
+                          callbackToAddItem(product);
+                          notify(product.name);
+                        } else {
+                          setAuthModalOpen(true);
+                        }
                       }}
                     >
                       Add to shopping cart
