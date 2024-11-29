@@ -16,7 +16,13 @@ import { AuthContext } from "../../context/auth.context";
 import "./navbar.css";
 import { useDisclosure } from "@mantine/hooks";
 import CreateProduct from "../Product/CreateProduct";
-export default function Navbar({ setProducts, query, setQuery, itemNum }) {
+export default function Navbar({
+  setUserProducts,
+  setHomeProducts,
+  query,
+  setQuery,
+  itemNum,
+}) {
   const { isLoggedIn, user, logOutUser } = useContext(AuthContext);
   const [opened, { open, close }] = useDisclosure(false);
 
@@ -54,7 +60,11 @@ export default function Navbar({ setProducts, query, setQuery, itemNum }) {
           <Group>
             <>
               <Modal opened={opened} onClose={close} title="Create Product">
-                <CreateProduct close={close} setProducts={setProducts} />
+                <CreateProduct
+                  close={close}
+                  setUserProducts={setUserProducts}
+                  setHomeProducts={setHomeProducts}
+                />
               </Modal>
 
               <IconCirclePlus
@@ -147,7 +157,7 @@ export default function Navbar({ setProducts, query, setQuery, itemNum }) {
         location.pathname !== `/signup` && (
           <Group>
             <Link to="/login">
-              <Button>Login</Button>{" "}
+              <Button mr={20}>Login</Button>{" "}
             </Link>
           </Group>
         )}
