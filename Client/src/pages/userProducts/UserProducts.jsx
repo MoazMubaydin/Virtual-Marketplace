@@ -34,6 +34,8 @@ export default function UserProducts({ setProducts, products }) {
       const response = await axios.get(`${DB_URL}/api/user/products/${userId}`);
       if ("products" in response.data) {
         setProducts(response.data.products);
+      } else {
+        setProducts([]);
       }
     } catch (error) {
       console.log(error);
