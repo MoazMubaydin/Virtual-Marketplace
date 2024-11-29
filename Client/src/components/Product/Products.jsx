@@ -52,19 +52,19 @@ export default function Products({
         products.map((product) => {
           return (
             <div key={product._id}>
-              <Card radius="lg" withBorder m="md" className="cardHP">
+              <Card radius="lg" withBorder m="md" className="cardHP" mw>
                 <Card.Section>
                   <Image src={product.image} height={160} alt={product.name} />
                 </Card.Section>
                 <Group justify="space-between" mt="md" className="name">
                   <h4>{product.name}</h4>
                   <Badge color="green" size="lg">
-                    {product.price}
+                    {product.price} €
                   </Badge>
                 </Group>
-                <p className="description">
+                <Text w={300} truncate="end" mt={20} mb={20}>
                   {product.description || "Product does not have a description"}
-                </p>
+                </Text>
                 {isLoggedIn &&
                 location.pathname === `/user/products/${user._id}` ? (
                   <Group>
