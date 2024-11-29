@@ -3,7 +3,6 @@ import { Avatar, Menu, Group, Button, Modal, Badge } from "@mantine/core";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import {
   IconShoppingBag,
-  IconSearch,
   IconLogout,
   IconSettings,
   IconBox,
@@ -31,7 +30,7 @@ export default function Navbar({
   return (
     <nav className="navbar">
       <img
-        src="../../public/Logo.svg"
+        src="public/Logo.svg"
         alt="site Logo"
         className="logo clickable"
         onClick={() => {
