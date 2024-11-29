@@ -138,7 +138,10 @@ export default function Navbar({
                 </Menu.Item>
 
                 <Menu.Item
-                  onClick={logOutUser}
+                  onClick={() => {
+                    logOutUser();
+                    navigate("/");
+                  }}
                   color="red"
                   leftSection={
                     <IconLogout style={{ width: rem(14), height: rem(14) }} />
