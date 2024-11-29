@@ -28,13 +28,13 @@ The application is a virtual marketplace where users can create, edit, and delet
 
 3. **Add environment variables:**
 
-```bash
- VITE_DATABASE_API_URL="You DATABASE API"
+   ```bash
+    VITE_DATABASE_API_URL="You DATABASE API"
 
-```
+   ```
 
 4. **Start the client:**
 
-```bash
-Copy code
-```
+   ```bash
+   Copy code
+   ```
