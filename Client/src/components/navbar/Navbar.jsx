@@ -30,7 +30,7 @@ export default function Navbar({
   return (
     <nav className="navbar">
       <img
-        src="public/Logo.svg"
+        src="/Logo.svg"
         alt="site Logo"
         className="logo clickable"
         onClick={() => {
